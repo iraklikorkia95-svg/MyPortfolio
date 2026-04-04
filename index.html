@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irakli Korkia Photography</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            color: #1a1a1a; 
+            overflow-x: hidden; 
+            /* Very, very slightly darker white */
+            background-color: #fafafa; 
+        }
+        
+        /* --- THE NAVIGATION BAR --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 600; 
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .nav-quote {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            opacity: 0;
+            max-width: 0;
+            transform: translateY(15px);
+            margin-left: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        nav.scrolled .nav-quote {
+            opacity: 1;
+            max-width: 400px; 
+            transform: translateY(0);
+            margin-left: 20px; 
+        }
+
+        nav.scrolled .nav-quote::before {
+            content: "—";
+            margin-right: 15px;
+            color: #ccc;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right > a, .dropdown > a {
+            color: #333; 
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-left: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-right > a:hover, .dropdown > a:hover {
+            opacity: 1;
+        }
+
+        /* --- DROPDOWN MENU --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: white;
+            min-width: 180px;
+            border-radius: 12px;
+            padding: 10px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1000;
+            margin-top: 15px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Invisible bridge to keep menu open while moving cursor down */
+        .dropdown::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+
+        .dropdown-content a {
+            display: block !important;
+            margin: 0 !important;
+            padding: 12px 25px !important;
+            font-size: 0.85rem !important;
+            color: #444 !important;
+            text-decoration: none !important;
+            opacity: 0.8 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            letter-spacing: 0.5px !important;
+            text-transform: none !important;
+        }
+
+        .dropdown-content a:hover {
+            opacity: 1 !important;
+            background: rgba(0, 0, 0, 0.03) !important;
+            padding-left: 35px !important;
+            color: #000 !important;
+            letter-spacing: 1.2px !important;
+        }
+
+        /* --- THE MAIN HEADER --- */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px 40px; 
+            transition: opacity 0.4s ease, transform 0.5s ease;
+        }
+
+        header.scrolled {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none; 
+        }
+
+        h1 {
+            font-weight: 200;
+            letter-spacing: -1px;
+            margin: 0;
+            font-size: 3.5rem;
+            color: #111;
+        }
+
+        p {
+            color: #666; 
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* --- THE ALBUM GRID --- */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 0 40px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .album-cover {
+            position: relative; 
+            border-radius: 4px; 
+            overflow: hidden;
+            height: 500px; 
+            display: block;
+            text-decoration: none; 
+            box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.08);
+            opacity: 0; 
+            transform: translateY(80px) scale(0.95);
+            transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .album-cover.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+            filter: grayscale(100%) brightness(0.7); 
+        }
+
+        /* --- FIXED RESPONSIVE TEXT --- */
+        .album-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            font-family: 'Montserrat', sans-serif;
+            
+            /* Responsive Font: Starts at 2rem, tries to be 5vw, maxes out at 3.5rem */
+            font-size: clamp(2rem, 5vw, 3.5rem); 
+            width: 90%; /* Keeps it off the walls */
+            text-align: center;
+            
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            pointer-events: none; 
+            transition: all 0.5s ease;
+            color: rgba(255, 255, 255, 0.1); 
+            -webkit-text-stroke: 2px #ffffff; 
+            filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.8));
+            z-index: 10;
+        }
+
+        .album-cover:hover img {
+            transform: scale(1.08); 
+            filter: grayscale(0%) brightness(0.4); 
+        }
+
+        .album-cover:hover .album-title {
+            color: rgba(255, 255, 255, 0.8); 
+            /* Reduced the zoom slightly to 1.03 to prevent clipping */
+            transform: translate(-50%, -50%) scale(1.03);
+            -webkit-text-stroke: 0px; 
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="main-nav">
+        <div class="nav-left">
+            <div class="nav-logo">Irakli Korkia</div>
+            <div class="nav-quote">Exploring the world, one frame at a time</div>
+        </div>
+        <div class="nav-right">
+            <div class="dropdown">
+                <a href="#">Portfolios</a>
+                <div class="dropdown-content">
+                    <a href="strasbourg.html">Strasbourg</a>
+                    <a href="corsica.html">Corsica</a>
+                    <a href="vosges.html">Vosges</a>
+                </div>
+            </div>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <header id="main-header">
+        <h1>Irakli Korkia Photography</h1>
+        <p>Exploring the world, one frame at a time.</p>
+    </header>
+
+    <div class="album-grid">
+        
+        <a href="strasbourg.html" class="album-cover">
+            <img src="images/strasbourg-cover.jpg" alt="Strasbourg Photography">
+            <div class="album-title">Strasbourg</div>
+        </a>
+
+        <a href="corsica.html" class="album-cover">
+            <img src="images/corsica-cover.jpg" alt="Corsica Photography">
+            <div class="album-title">Corsica</div>
+        </a>
+
+        <a href="vosges.html" class="album-cover">
+            <img src="images/Vosges.jpg" alt="Vosges Photography">
+            <div class="album-title">Vosges</div>
+        </a>
+
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.album-cover').forEach((cover) => {
+            observer.observe(cover);
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            const header = document.getElementById('main-header');
+            
+            if (window.scrollY > 20) {
+                nav.classList.add('scrolled');
+                header.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+</body>
+</html>
