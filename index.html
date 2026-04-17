@@ -280,6 +280,40 @@
         .album-cover.paris-cover .album-title {
             color: rgba(255, 255, 255, 0.16);
         }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            /* Overrides the 400px minimum to fit the screen */
+            .album-grid {
+                grid-template-columns: 1fr; 
+                padding: 0 20px 60px; /* Reduces side padding to free up space */
+                gap: 20px;
+            }
+
+            /* Slightly reduces the height so they fit better on mobile screens */
+            .album-cover {
+                height: 400px; 
+            }
+
+            /* Adjusts header padding and centers the main title text */
+            header {
+                padding: 100px 20px 30px;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            /* Reduces nav padding to prevent squeezing on small screens */
+            nav {
+                padding: 15px 20px;
+            }
+            
+            nav.scrolled .nav-quote {
+                display: none; /* Optional: Hides the quote on scroll for mobile to keep the header clean */
+            }
+        }
     </style>
 </head>
 <body>
