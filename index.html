@@ -254,6 +254,32 @@
             transform: translate(-50%, -50%) scale(1.03);
             -webkit-text-stroke: 0px; 
         }
+
+        .album-cover.paris-cover {
+            background:
+                linear-gradient(160deg, rgba(35, 34, 32, 0.15), rgba(35, 34, 32, 0.55)),
+                radial-gradient(circle at top, rgba(255, 236, 210, 0.55), transparent 35%),
+                linear-gradient(135deg, #b8a48d, #7a8a92 55%, #414753);
+        }
+
+        .album-cover.paris-cover::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to top, rgba(15, 15, 15, 0.55), transparent 45%),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.06) 0,
+                    rgba(255, 255, 255, 0.06) 1px,
+                    transparent 1px,
+                    transparent 90px
+                );
+        }
+
+        .album-cover.paris-cover .album-title {
+            color: rgba(255, 255, 255, 0.16);
+        }
     </style>
 </head>
 <body>
@@ -268,6 +294,7 @@
                 <a href="#">Portfolios</a>
                 <div class="dropdown-content">
                     <a href="strasbourg.html">Strasbourg</a>
+                    <a href="paris.html">Paris</a>
                     <a href="corsica.html">Corsica</a>
                     <a href="vosges.html">Vosges</a>
                 </div>
@@ -287,6 +314,10 @@
         <a href="strasbourg.html" class="album-cover">
             <img src="images/strasbourg-cover.jpg" alt="Strasbourg Photography">
             <div class="album-title">Strasbourg</div>
+        </a>
+
+        <a href="paris.html" class="album-cover paris-cover">
+            <div class="album-title">Paris</div>
         </a>
 
         <a href="corsica.html" class="album-cover">
