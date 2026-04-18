@@ -38,13 +38,17 @@ nav {
     transition: all 0.5s ease;
 }
 
-.nav-left { display: flex; align-items: center; }
+.nav-left {
+    display: flex;
+    align-items: center;
+}
 
 .nav-logo {
     font-weight: 600;
     letter-spacing: 1px;
     font-size: 1rem;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .nav-quote {
@@ -72,7 +76,10 @@ nav.scrolled .nav-quote::before {
     color: #ccc;
 }
 
-.nav-right { display: flex; align-items: center; }
+.nav-right {
+    display: flex;
+    align-items: center;
+}
 
 .nav-right > a, .dropdown > a {
     color: #333;
@@ -82,6 +89,7 @@ nav.scrolled .nav-quote::before {
     margin-left: 20px;
     opacity: 0.7;
     transition: 0.3s;
+    white-space: nowrap;
 }
 
 .nav-right > a:hover, .dropdown > a:hover { opacity: 1; }
@@ -225,31 +233,45 @@ header p {
     .album-grid { grid-template-columns: repeat(2,1fr); }
 }
 
-/* MOBILE FIX (THIS IS THE IMPORTANT PART) */
+/* MOBILE FIX */
 @media (max-width:768px){
 
     nav {
-        padding: 8px 5%; /* smaller navbar */
+        padding: 6px 5%;
+    }
+
+    .nav-left {
+        flex-direction: row;
+        align-items: center;
     }
 
     .nav-logo {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .nav-quote {
-        display: none; /* removes extra height */
+        display: none;
+    }
+
+    .nav-right {
+        flex-wrap: nowrap;
+    }
+
+    .nav-right > a, .dropdown > a {
+        margin-left: 8px;
+        font-size: 0.7rem;
     }
 
     header {
-        padding: 80px 5% 25px; /* prevents overlap with navbar */
+        padding: 70px 5% 25px;
     }
 
     .album-grid {
-        grid-template-columns:1fr;
+        grid-template-columns: 1fr;
     }
 
     .album-cover {
-        height:400px;
+        height: 380px;
     }
 }
 
